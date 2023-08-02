@@ -16,6 +16,16 @@ html,body,div,h1,h2,h3,p{
     margin: 0;
     padding: 0;
 }
+input, textarea{
+    appearance: none;
+    font-size: 1rem;
+    border: 1px solid rgba(0, 0, 0, .3);
+    padding: .5em;
+    resize: none;
+}
+:focus{
+    border-color: blue;
+}
 
 /* Utility */
 .book-info{
@@ -43,13 +53,21 @@ html,body,div,h1,h2,h3,p{
     align-items: center;
     font-size: 1rem;
     padding: .5em 2em;
-    border: 1px solid #ff6666;
+    border: 1px solid var(--color-primary-dark);
+    background-color: var(--color-primary-dark);
+    color: #fff;
     border-radius: 5px;
+    cursor: pointer;
+}
+.btn:hover{
+    background-color: transparent;
+    color: var(--color-primary-dark);
+    transition: 50ms;
 }
 .btn-danger{
     background-color: #ff6666;
+    border-color: #ff6666;
     color: white;
-    transition: 50ms;
     cursor: pointer;
 }
 .btn-danger:hover{
@@ -133,4 +151,28 @@ html,body,div,h1,h2,h3,p{
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+.form-container{
+    position: fixed;
+    height: 100svh;
+    width: 100svw;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, .5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+form{
+    background-color: #fff;
+    padding: 3em 2em;
+    border-radius: 4px;
+}
+form > div{
+    display: grid;
+    grid-template: 1fr 3fr/ repeat(2, minmax(100px, 1fr));
+    gap: .5em .2em;
+}
+form textarea{
+    grid-column: 1/span 2;
 }
