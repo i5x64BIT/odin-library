@@ -38,17 +38,32 @@ function createBookCard(id, title, author, pages, description){
     bDescription.innerText = description;
 
     [bTitle, bPages, bAuthor, bDescription].forEach(e => card.appendChild(e));
-    card.innerHTML += '<div class="book-controls"><button class="btn btn-danger">Remove</button></div>'; //Add the remove btn
+    card.innerHTML += 
+    `<div class="book-controls">
+        <button class="btn btn-danger">Remove</button>
+        <button class="btn btn-unread"></button>
+    </div>`; //Add the remove btn
 
     card.setAttribute('data-id', id);
 
     const btnRemoveBook = card.querySelector(`.card[data-id="${id}"] .btn-danger`)
     btnRemoveBook.addEventListener('click', function() {
         const bookCard = this.parentElement.parentElement;
-        const bookId = this.parentElement.parentElement.getAttribute('data-id');
-
         removeBookFromMap(id);
         document.querySelector('.content-container').removeChild(bookCard);
+    })
+
+    card.querySelector(`.card[data-id="${id}"] .btn-unread`).addEventListener('click', function() {
+        book = bookMap.get(id);
+        if(book){
+            if(!book.isRead){
+                setIsRead(book.id, true);
+                this.classList = 'btn btn-read';
+            } else {
+                setIsRead(book.id, false);
+                this.classList = 'btn btn-unread';
+            }
+        }
     })
     
     return card;
@@ -72,7 +87,7 @@ const removeBookFromMap = (id) => {
     bookMap.delete(id)
 }
 const setIsRead = (iBook, isRead) => {
-    arrBook[iBook].isRead = isRead;
+    bookMap.get(iBook).isRead = isRead;
 }
 
 const btnSubmitBook = document.querySelector('.form-container .btn')
@@ -95,14 +110,5 @@ btnSubmitBook.addEventListener('click', () => {
     hideElem.call(formContainer);
 })
 
-// const btnRemoveList = document.querySelectorAll('.card .btn-danger');
-
-// btnRemoveList.forEach(b => b.addEventListener('click',  function() {
-//     console.log('Remove Element was clicked')
-    
-
-//     arrBook.splice(bookId, 1);
-//     document.querySelector('.content-container').removeChild(bookCard);
-// }));
 
 

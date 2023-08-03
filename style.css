@@ -77,6 +77,19 @@ input, textarea{
 .img-medium{
     width: 6rem;
 }
+.btn-read{
+    background-color: #66ff66;
+    color: #000;
+}
+.btn-read::after{
+    content: 'Unread';
+}
+.btn-unread{
+    background-color: gray;
+}
+.btn-unread::after{
+    content: "Read";
+}
 
 /* Layout */
 .page-container{
