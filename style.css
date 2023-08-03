@@ -100,7 +100,7 @@ input, textarea{
     padding-block: 5vh;
     padding-inline: 20vh;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, clamp(220px, 10vw, 300px));
     grid-auto-rows: 1fr;
     gap: 20px;
 }
@@ -154,8 +154,9 @@ input, textarea{
 .card .book-controls{
     margin-top: auto;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
+    flex-direction: column;
+    gap: 5px;
 }
 .card .btn-danger{
     margin-top: 1em;
