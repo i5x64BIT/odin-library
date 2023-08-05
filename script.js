@@ -1,18 +1,22 @@
-const bookMap = new Map();
-function Book(title, author, pages, description) {
-    this.id = ++Book.id;
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.description = description;
-    this.isRead = false;
+class Book{
+    static id = 0;
+    static bookMap = new Map();
 
-    this.info = function(){
-        return JSON.stringify(this);
+    constructor(title, author, pages, description){
+        this.id = ++Book.id;
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.description = description;
+        this.isRead = false;
+
+        Book.bookMap.set(this.id, this)
     }
+    
+    static remove = id => Book.bookMap.delete(id);
+    setIsRead = isRead => Book.bookMap.get(this.id).isRead = isRead;
+    static get = id => this.bookMap.get(id);
 }
-Book.id = 0; //Static variable
-
 const btnAdd = document.querySelector(".content-container .card:last-child");
 const formContainer = document.querySelector('.form-container');
 const form = document.querySelector('.form-container form')
@@ -49,18 +53,18 @@ function createBookCard(id, title, author, pages, description){
     const btnRemoveBook = card.querySelector(`.card[data-id="${id}"] .btn-danger`)
     btnRemoveBook.addEventListener('click', function() {
         const bookCard = this.parentElement.parentElement;
-        removeBookFromMap(id);
+        Book.remove(id);
         document.querySelector('.content-container').removeChild(bookCard);
     })
 
     card.querySelector(`.card[data-id="${id}"] .btn-unread`).addEventListener('click', function() {
-        book = bookMap.get(id);
+        const book = Book.get(id);
         if(book){
             if(!book.isRead){
-                setIsRead(book.id, true);
+                book.setIsRead(book.id, true);
                 this.classList = 'btn btn-read';
             } else {
-                setIsRead(book.id, false);
+                book.setIsRead(book.id, false);
                 this.classList = 'btn btn-unread';
             }
         }
@@ -80,16 +84,6 @@ form.addEventListener('mouseenter', () => {
     formContainer.removeEventListener('click', hideElem);
 })
 
-const addBookToMap = (book) =>{
-    bookMap.set(book.id, book);
-}
-const removeBookFromMap = (id) => {
-    bookMap.delete(id)
-}
-const setIsRead = (iBook, isRead) => {
-    bookMap.get(iBook).isRead = isRead;
-}
-
 const btnSubmitBook = document.querySelector('.form-container .btn')
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -101,7 +95,6 @@ btnSubmitBook.addEventListener('click', () => {
         document.querySelector('.form-container input[name="pages"]').value,
         document.querySelector('.form-container textarea[name="description"]').value
     );
-    addBookToMap(book);
     //Add the book to the ui
     const card = createBookCard(book.id ,book.title, book.author, book.pages, book.description);
     
